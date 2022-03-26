@@ -73,7 +73,6 @@ contract StreamFlow is StreamRedirect {
           msg.sender
       ));
       masterIndex++;
-      updateContractInflow(msg.sender, _bounty);
   }
 
   mapping (uint => Answer[]) quesToAnsS;// stored all the answer in a array so its easy to iterate, and mapped it to its qId below

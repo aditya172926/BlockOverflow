@@ -89,18 +89,6 @@ contract StreamRedirect is SuperAppBase {
         }
     }
 
-    // function to check if the new doubt poster already has a stream in the contract or not
-    function updateContractInflow(address from, int96 bounty) public returns (bool) {
-        (, int96 outFlowRate,,) = _cfa.getFlow(_acceptedToken, from, address(this));
-        if (outFlowRate > int96(0)) {
-            cfaV1.updateFlow(address(this), _acceptedToken, outFlowRate+bounty);
-            return true;
-        } else {
-            // you need to initiate the stream from the frontend sdk
-            return false;
-        }
-    }
-
     event ReceiverChanged(address receiver); //what is this?
 
     /// @dev If a new stream is opened, or an existing one is opened
