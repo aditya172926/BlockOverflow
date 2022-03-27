@@ -57,6 +57,8 @@ contract StreamFlow is StreamRedirect {
   mapping (uint => Answer[]) quesToAnsS;// stored all the answer in a array so its easy to iterate, and mapped it to its qId below
   mapping (uint => mapping (uint => mapping(address =>bool))) questionToAnsToupvoter;
 
+  event NewDoubt(address indexed from, uint256 quesId, string heading, string description);
+
   function writeDoubt(
     string memory _heading,
     string memory _description,
@@ -75,6 +77,7 @@ contract StreamFlow is StreamRedirect {
           -1,//same reason as above.
           msg.sender
       ));
+      emit NewDoubt(msg.sender, masterIndex, _heading, _description);
       masterIndex++;
   }
 
