@@ -54,6 +54,9 @@ contract StreamFlow is StreamRedirect {
   Doubt[] internal doubts; // to store all of the doubts
   uint256 masterIndex = 0;
 
+  mapping (uint => Answer[]) quesToAnsS;// stored all the answer in a array so its easy to iterate, and mapped it to its qId below
+  mapping (uint => mapping (uint => mapping(address =>bool))) questionToAnsToupvoter;
+
   function writeDoubt(
     string memory _heading,
     string memory _description,
@@ -75,17 +78,19 @@ contract StreamFlow is StreamRedirect {
       masterIndex++;
   }
 
-  mapping (uint => Answer[]) quesToAnsS;// stored all the answer in a array so its easy to iterate, and mapped it to its qId below
-  mapping (uint => mapping (uint => mapping(address =>bool))) questionToAnsToupvoter;
+  // read all the doubts
+  function readDoubts() public view returns(Doubt[] memory) {
+    return doubts;
+  }
 
-
+  // post an answer
   function answerDoubt(string memory answer, uint qId) public {
     Answer memory ans = Answer(answer, msg.sender, 0, quesToAnsS[qId].length);
     quesToAnsS[qId].push(ans);//pushing answer to AnsS array
     questionToAnsToupvoter[qId][quesToAnsS[qId].length-1]; //initializing IDK its needed or not if not required, will remove it
   }
 
-
+  // upvote an answer
   function upVote(uint doubtIndex, uint ansIndex) public {
     if (questionToAnsToupvoter[doubtIndex][ansIndex][msg.sender]) {
       // do nothing when vote is true for msg.sender;
@@ -114,11 +119,6 @@ contract StreamFlow is StreamRedirect {
         //give back money to the doubt asker
       }
     }
-  }
-
-  // function to read values from the contract just for testing
-  function readDoubts(uint _index) public view returns(Doubt memory) {
-    return doubts[_index];
   }
 
   function readAnsS(uint _index, uint _ansIndex) public view returns(Answer memory) {
