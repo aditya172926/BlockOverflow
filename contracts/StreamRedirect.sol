@@ -11,6 +11,7 @@ import {
     SuperAppDefinitions
 } from "@superfluid-finance/ethereum-contracts/contracts/interfaces/superfluid/ISuperfluid.sol";
 
+// When ready to move to leave Remix, change imports to follow this pattern:
 // "@superfluid-finance/ethereum-contracts/contracts/interfaces/superfluid/ISuperfluid.sol";
 
 import {
@@ -70,10 +71,20 @@ contract StreamRedirect is SuperAppBase {
         _host.registerApp(configWord);
     }
 
+    mapping(address => int96) streamTransactions;
+
 
     /**************************************************************************
      * Redirect Logic
      *************************************************************************/
+    // sets the receiver of stream when a new doubt is posted
+    function setReceiver(address _doubtPoster) public {
+        _receiver = _doubtPoster;
+    }
+
+    function checkFlow(address _doubtPoster) public view returns (int96) {
+        return streamTransactions[_doubtPoster];
+    }
 
     function currentReceiver()
         external view
@@ -89,7 +100,10 @@ contract StreamRedirect is SuperAppBase {
         }
     }
 
+
+
     event ReceiverChanged(address receiver); //what is this?
+
 
     /// @dev If a new stream is opened, or an existing one is opened
     function _updateOutflow(bytes calldata ctx)
@@ -130,6 +144,7 @@ contract StreamRedirect is SuperAppBase {
             "0x",
             newCtx
         );
+        streamTransactions[msg.sender] = streamTransactions[msg.sender] + inFlowRate;
       } else {
       // @dev If there is no existing outflow, then create new flow to equal inflow
           (newCtx, ) = _host.callAgreementWithContext(
@@ -144,6 +159,7 @@ contract StreamRedirect is SuperAppBase {
               "0x",
               newCtx
           );
+          streamTransactions[msg.sender] = inFlowRate;
       }
     }
 
