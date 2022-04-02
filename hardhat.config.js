@@ -22,6 +22,6 @@ module.exports = {
     rinkeby: {
       url: "https://eth-rinkeby.alchemyapi.io/v2/8wA91KZjzZJq_92L1-Nv4Ifg-vPmj8NW", //rinkeby api
       accounts: [] // your account private key
-    },s
+    },
   },
 };

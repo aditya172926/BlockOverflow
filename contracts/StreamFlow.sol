@@ -103,10 +103,9 @@ contract StreamFlow is StreamRedirect {
 
       //logic for updating winner in maxUpvotedAnsId
       if(int(quesToAnsS[_doubtIndex][_ansIndex].upvotes) > doubts[_doubtIndex].maxUpvote){
-        updateWinner(_doubtIndex, _ansIndex) //checking maxupvote for that question to the latest upvoted ans vote
+        updateWinner(_doubtIndex, _ansIndex); //checking maxupvote for that question to the latest upvoted ans vote
       }
     }
-  }
 
   //A function to change the maxmimum upvotes and the winner
   function updateWinner (uint _doubtIndex, uint _ansIndex)  public {
@@ -122,11 +121,11 @@ contract StreamFlow is StreamRedirect {
   }
 
   //Function that returns the number of upvotes an answer has -> this would require the doubtID and ansID
-  function readUpvotes(uint _doubtIndex, uint _ansIndex ){
+  function readUpvotes(uint _doubtIndex, uint _ansIndex ) public view returns(uint) {
     return quesToAnsS[_doubtIndex][_ansIndex].upvotes;
   }
 
   function changeWinner (address newWinner) public {
     _changeReceiver(newWinner);
-  }
+  } 
 }
