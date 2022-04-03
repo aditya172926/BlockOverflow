@@ -11,6 +11,7 @@ import {
     SuperAppDefinitions
 } from "@superfluid-finance/ethereum-contracts/contracts/interfaces/superfluid/ISuperfluid.sol";
 
+// When ready to move to leave Remix, change imports to follow this pattern:
 // "@superfluid-finance/ethereum-contracts/contracts/interfaces/superfluid/ISuperfluid.sol";
 
 import {
@@ -70,10 +71,16 @@ contract StreamRedirect is SuperAppBase {
         _host.registerApp(configWord);
     }
 
+    mapping(address => int96) streamTransactions;
+
 
     /**************************************************************************
      * Redirect Logic
      *************************************************************************/
+    // sets the receiver of stream when a new doubt is posted
+    function setReceiver(address _doubtPoster) public {
+        _receiver = _doubtPoster;
+    }
 
     function currentReceiver()
         external view
@@ -89,7 +96,10 @@ contract StreamRedirect is SuperAppBase {
         }
     }
 
+
+
     event ReceiverChanged(address receiver); //what is this?
+
 
     /// @dev If a new stream is opened, or an existing one is opened
     function _updateOutflow(bytes calldata ctx)
@@ -148,27 +158,32 @@ contract StreamRedirect is SuperAppBase {
     }
 
     // @dev Change the Receiver of the total flow
-    function _changeReceiver( address newReceiver ) internal {
+    function _changeReceiver( address newReceiver, address previousReceiver, int96 bountyamount ) internal {
         require(newReceiver != address(0), "New receiver is zero address");
         // @dev because our app is registered as final, we can't take downstream apps
         require(!_host.isApp(ISuperApp(newReceiver)), "New receiver can not be a superApp");
-        if (newReceiver == _receiver) return ;
+        if (newReceiver == previousReceiver) return ;
         // @dev delete flow to old receiver
-        (,int96 outFlowRate,,) = _cfa.getFlow(_acceptedToken, address(this), _receiver); //CHECK: unclear what happens if flow doesn't exist.
-        if(outFlowRate > 0){
+        (,int96 outFlowRate,,) = _cfa.getFlow(_acceptedToken, address(this), previousReceiver); //CHECK: unclear what happens if flow doesn't exist.
+        if(outFlowRate > 0 && outFlowRate == bountyamount){
           _host.callAgreement(
               _cfa,
               abi.encodeWithSelector(
                   _cfa.deleteFlow.selector,
                   _acceptedToken,
                   address(this),
-                  _receiver,
+                  previousReceiver,
                   new bytes(0)
               ),
               "0x"
           );
           // @dev create flow to new receiver
           cfaV1.createFlow(newReceiver, _acceptedToken, outFlowRate);
+        }
+        if (outFlowRate > bountyamount) {
+            int96 newOutFlowRate = outFlowRate - bountyamount;
+            cfaV1.updateFlow(previousReceiver, _acceptedToken, newOutFlowRate);
+            cfaV1.createFlow(newReceiver, _acceptedToken, bountyamount);
         }
           
         // @dev set global receiver to new receiver
