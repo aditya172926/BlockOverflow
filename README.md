@@ -9,7 +9,9 @@ This helps to understand the level of contribution experience a person might hav
 This provides a challenging environment and a lot of room for development of each answer quality. As if someone else achieves higher number of upvotes, the stream of rewards will be redirected to the new worthy person.
 
 The frontend React code is in the `frontend` branch of this repo.
-You can also view it on the Replit link -> https://replit.com/@aditya172926/BlockOverflowDapp#src/CreateFlow.js
+You can also view it on the Replit links -> 
+1. https://replit.com/@aditya172926/BlockOverflowDapp#src/CreateFlow.js
+2. https://BlockOverflowDapp.aditya172926.repl.co
 
 ## Hardhat Project
 
