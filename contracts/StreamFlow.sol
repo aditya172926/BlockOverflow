@@ -76,15 +76,9 @@ contract StreamFlow is StreamRedirect {
           -1,//same reason as above.
           msg.sender
       ));
-      // setReceiver(msg.sender);
+      setReceiver(msg.sender);
       emit NewDoubt(msg.sender, masterIndex, _heading, _description);
       masterIndex++;
-  }
-
-  function checkIfInflowExists() public view returns (int96) {
-    if (streamTransactions[msg.sender] > int96(0))
-      return int96(streamTransactions[msg.sender]);
-    return int96(0);
   }
 
   function readDoubts() public view returns(Doubt[] memory) {
@@ -112,8 +106,10 @@ contract StreamFlow is StreamRedirect {
       if(int(quesToAnsS[doubtIndex][ansIndex].upvotes) > doubts[doubtIndex].maxUpvote){ //checking maxupvote for that question to the latest upvoted ans vote
         doubts[doubtIndex].maxUpvote = int(quesToAnsS[doubtIndex][ansIndex].upvotes); // reassigning maxupvote if needer
         doubts[doubtIndex].mostUpvoteAnsIndex = int(ansIndex); // and mostupvoteAnsIndex
+        address previousWinner = doubts[doubtIndex].current_winner; // storing the previous winner
         doubts[doubtIndex].current_winner = quesToAnsS[doubtIndex][ansIndex].answerer; // updates the address of current winner
-        changeWinner(doubts[doubtIndex].current_winner); // changing the winner stream
+        int96 bountyamount = doubts[doubtIndex].bounty; // changing the winner stream // leep in mind about the bounty
+        _changeReceiver(doubts[doubtIndex].current_winner, previousWinner, bountyamount);
       }
     }
   }
@@ -141,8 +137,4 @@ contract StreamFlow is StreamRedirect {
   // }
   // function readUpvoter(){
   // }
-
-  function changeWinner (address newWinner) public {
-    _changeReceiver(newWinner);
-  }
 }
