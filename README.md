@@ -1,4 +1,4 @@
-# ETHernals Hackathon project
+# ETHernals Hackathon project ✌
 This project is made keeping in mind the way StackOverFlow works.<br>
 Users can come on the Super app and can post their doubts which they want to be answered by the community! Anyone can approach the question and post their answers.<br>
 
@@ -8,7 +8,9 @@ This helps to understand the level of contribution experience a person might hav
 
 This provides a challenging environment and a lot of room for development of each answer quality. As if someone else achieves higher number of upvotes, the stream of rewards will be redirected to the new worthy person.
 
-##Hardhat Project
+The frontend React code is in the `frontend` branch of this repo.
+
+## Hardhat Project
 
 This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, a sample script that deploys that contract, and an example of a task implementation, which simply lists the available accounts.
 
