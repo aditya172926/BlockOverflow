@@ -96,7 +96,13 @@ contract StreamRedirect is SuperAppBase {
         }
     }
 
-
+    function getNetFlowFromContract() public view returns (int96) {
+        return _cfa.getNetFlow(_acceptedToken, address(this));
+    }
+    function getFlowToSpecificAccount(address account) public view returns (int96) {
+        (,int96 outFlowRate,,) = _cfa.getFlow(_acceptedToken, address(this), account);
+        return outFlowRate;
+    }
 
     event ReceiverChanged(address receiver); //what is this?
 
@@ -165,7 +171,7 @@ contract StreamRedirect is SuperAppBase {
         if (newReceiver == previousReceiver) return ;
         // @dev delete flow to old receiver
         (,int96 outFlowRate,,) = _cfa.getFlow(_acceptedToken, address(this), previousReceiver); //CHECK: unclear what happens if flow doesn't exist.
-        if(outFlowRate > 0 && outFlowRate == bountyamount){
+        if(outFlowRate > int96(0) && outFlowRate == bountyamount){
           _host.callAgreement(
               _cfa,
               abi.encodeWithSelector(
@@ -182,7 +188,8 @@ contract StreamRedirect is SuperAppBase {
         }
         if (outFlowRate > bountyamount) {
             int96 newOutFlowRate = outFlowRate - bountyamount;
-            cfaV1.updateFlow(previousReceiver, _acceptedToken, newOutFlowRate);
+            cfaV1.deleteFlow(address(this), previousReceiver, _acceptedToken);
+            cfaV1.createFlow(previousReceiver, _acceptedToken, newOutFlowRate);
             cfaV1.createFlow(newReceiver, _acceptedToken, bountyamount);
         }
           

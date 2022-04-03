@@ -57,6 +57,7 @@ contract StreamFlow is StreamRedirect {
   uint256 masterIndex = 0;
 
   event NewDoubt(address indexed from, uint256 quesId, string heading, string description);
+  event NewUpdateAnswer(address indexed from, uint256 answerid, uint256 quesid, string ans, uint256 upvotes);
 
   function writeDoubt(
     string memory _heading,
@@ -93,49 +94,29 @@ contract StreamFlow is StreamRedirect {
     Answer memory ans = Answer(answer, msg.sender, 0, quesToAnsS[qId].length);
     quesToAnsS[qId].push(ans);//pushing answer to AnsS array
     questionToAnsToupvoter[qId][quesToAnsS[qId].length-1]; //initializing IDK its needed or not if not required, will remove it
+    emit NewUpdateAnswer(msg.sender, quesToAnsS[qId].length, qId, ans.ans, ans.upvotes);
   }
 
 
-  // upvote an answer
-  function upVote(uint _doubtIndex, uint _ansIndex) public {
+  function upVote(uint doubtIndex, uint ansIndex) public {
+    require (questionToAnsToupvoter[doubtIndex][ansIndex][msg.sender] == false, "Cannot upvote the answer twice!");
     
-    require(questionToAnsToupvoter[_doubtIndex][_ansIndex][msg.sender] == false, "You can upvote an answer only once");
-
-      questionToAnsToupvoter[_doubtIndex][_ansIndex][msg.sender] = true;// marking the upvoter
-      quesToAnsS[_doubtIndex][_ansIndex].upvotes++; // inc. the upvote for the answer by accessing
-
-      //logic for updating winner in maxUpvotedAnsId
-      if(int(quesToAnsS[_doubtIndex][_ansIndex].upvotes) > doubts[_doubtIndex].maxUpvote){
-        updateWinner(_doubtIndex, _ansIndex); //checking maxupvote for that question to the latest upvoted ans vote
-
-      }
+    questionToAnsToupvoter[doubtIndex][ansIndex][msg.sender] = true;// marking the upvoter
+    quesToAnsS[doubtIndex][ansIndex].upvotes++; // inc. the upvote for the answer by accessing
+    //logic for updating winner in maxUpvotedAnsId
+    if(int(quesToAnsS[doubtIndex][ansIndex].upvotes) > doubts[doubtIndex].maxUpvote){ //checking maxupvote for that question to the latest upvoted ans vote
+      doubts[doubtIndex].maxUpvote = int(quesToAnsS[doubtIndex][ansIndex].upvotes); // reassigning maxupvote if needer
+      doubts[doubtIndex].mostUpvoteAnsIndex = int(ansIndex); // and mostupvoteAnsIndex
+      address previousWinner = doubts[doubtIndex].current_winner; // storing the previous winner
+      doubts[doubtIndex].current_winner = quesToAnsS[doubtIndex][ansIndex].answerer; // updates the address of current winner
+      int96 bountyamount = doubts[doubtIndex].bounty; // changing the winner stream // leep in mind about the bounty
+      if (bountyamount != int96(0))
+        _changeReceiver(doubts[doubtIndex].current_winner, previousWinner, bountyamount);
     }
-
-  //A function to change the maxmimum upvotes and the winner
-  function updateWinner (uint _doubtIndex, uint _ansIndex)  public {
-        doubts[_doubtIndex].maxUpvote = int(quesToAnsS[_doubtIndex][_ansIndex].upvotes); // reassigning maxupvote if needer
-        doubts[_doubtIndex].mostUpvoteAnsIndex = int(_ansIndex); // and mostupvoteAnsIndex
-        doubts[_doubtIndex].current_winner = quesToAnsS[_doubtIndex][_ansIndex].answerer; // updates the address of current winner
-
-        changeWinner(doubts[_doubtIndex].current_winner); // changing the winner stream
   }
 
-  function readAnsS(uint _doubtIndex, uint _ansIndex) public view returns(Answer memory) {
-    return quesToAnsS[_doubtIndex][_ansIndex];
+  // function to read values from the contract just for testing
+  function readAnsS(uint _index) public view returns(Answer[] memory) {
+    return quesToAnsS[_index];
   }
-
-
-  //Function that returns the number of upvotes an answer has -> this would require the doubtID and ansID
-  function readUpvotes(uint _doubtIndex, uint _ansIndex ) public view returns(uint) {
-    return quesToAnsS[_doubtIndex][_ansIndex].upvotes;
-  }
-
-  function changeWinner (address newWinner) public {
-    _changeReceiver(newWinner);
-  }
-  
-  function getDoubtsLength() public view returns (uint) {
-        return (masterIndex);
-    }
-
 }
