@@ -1,13 +1,16 @@
 # ETHernals Hackathon project ✌
-This project is made keeping in mind the way StackOverFlow works.<br>
-Users can come on the Super app and can post their doubts which they want to be answered by the community! Anyone can approach the question and post their answers.<br>
+This project is developed in the ETHernals 2022 ETHIndia Hackathon.<br>
 
+## Project Description
+Users can come on the Super app and can post their doubts which they want to be answered by the community. Anyone can approach the question and post their answers.<br>
 Other peers form the community can come and either post their own answers to a doubt or upvote a posted answer.
 
+## Aim
 This helps to understand the level of contribution experience a person might have and is worthy in the eyes of the developer commuinty for a reward. The Doubt poster has an option to attach a reward amount with the doubt, and if the worthy person comes the contract will start a stream of rewards to that person's wallet!
 
 This provides a challenging environment and a lot of room for development of each answer quality. As if someone else achieves higher number of upvotes, the stream of rewards will be redirected to the new worthy person.
 
+## Project Code
 The frontend React code is in the `frontend` branch of this repo.
 You can also view it on the Replit links -> 
 1. https://replit.com/@aditya172926/BlockOverflowDapp#src/CreateFlow.js
