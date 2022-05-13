@@ -10,15 +10,16 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@nomiclabs/hardhat-ethers": "^2.0.5",
+    "@nomiclabs/hardhat-ethers": "^2.0.6",
     "@nomiclabs/hardhat-waffle": "^2.0.3",
     "chai": "^4.3.6",
-    "ethereum-waffle": "^3.4.0",
-    "ethers": "^5.6.0",
+    "ethereum-waffle": "^3.4.4",
+    "ethers": "^5.6.5",
     "hardhat": "^2.9.2"
   },
   "dependencies": {
-    "@openzeppelin/contracts": "^4.5.0",
-    "@superfluid-finance/ethereum-contracts": "^1.1.1"
+    "@openzeppelin/contracts": "^4.6.0",
+    "@superfluid-finance/ethereum-contracts": "^1.2.2",
+    "dotenv": "^16.0.1"
   }
 }
