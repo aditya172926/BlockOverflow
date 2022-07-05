@@ -11,10 +11,9 @@ This helps to understand the level of contribution experience a person might hav
 This provides a challenging environment and a lot of room for development of each answer quality. As if someone else achieves higher number of upvotes, the stream of rewards will be redirected to the new worthy person.
 
 ## Project Code
-Project website - https://block-overflow-frontend.vercel.app/
-BlockOverflow Frontend Repository - https://github.com/aditya172926/BlockOverflow_frontend
-You can also view it on the Replit links -> 
-2. https://BlockOverflowDapp.aditya172926.repl.co
+Project website - https://block-overflow-frontend.vercel.app/ <br>
+BlockOverflow Frontend Repository - https://github.com/aditya172926/BlockOverflow_frontend <br>
+You can also view it on the Replit links -> https://BlockOverflowDapp.aditya172926.repl.co
 
 ## Hardhat Project
 
