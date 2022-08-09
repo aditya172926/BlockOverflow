@@ -1,8 +1,10 @@
 const main = async() => {
 
-    const host = '0xeD5B5b32110c3Ded02a07c8b8e97513FAfb883B6';
-    const fDAIx = '0x745861AeD1EEe363b4AaA5F1994Be40b1e05Ff90';
-    const cfa_address = '0xF4C5310E51F6079F601a5fb7120bC72a70b96e2A';
+  // configuring for Goreli testnet
+
+    const host = '0x22ff293e14F1EC3A09B137e9e06084AFd63adDF9';
+    const fDAIx = '0xF2d68898557cCb2Cf4C10c3Ef2B034b2a69DAD00';
+    const cfa_address = '0xEd6BcbF6907D4feEEe8a8875543249bEa9D308E8';
 
     //your address here...
     const owner = "0xd4C88BDeE3a708d6A13A7aFE3B5f93f1DA5375D8";

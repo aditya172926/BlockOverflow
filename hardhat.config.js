@@ -20,9 +20,9 @@ task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
 module.exports = {
   solidity: "0.8.4",
   networks: {
-    rinkeby: {
-      url: process.env.ALCHEMY_API_KEY_URL, //rinkeby api
-      accounts: [process.env.RINKEBY_PRIVATE_KEY] // your account private key
+    goreli: {
+      url: process.env.ALCHEMY_API_KEY_URL, //goreli api
+      accounts: [process.env.GORELI_PRIVATE_KEY] // your account private key
     },
   },
 };
