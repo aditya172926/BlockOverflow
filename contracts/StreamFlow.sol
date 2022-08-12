@@ -51,8 +51,6 @@ contract StreamFlow is StreamRedirect {
     uint ansId;
   }
 
-  
-
   Doubt[] internal doubts; // to store all of the doubts
   uint256 masterIndex = 0;
 
@@ -96,7 +94,6 @@ contract StreamFlow is StreamRedirect {
     questionToAnsToupvoter[qId][quesToAnsS[qId].length-1]; //initializing IDK its needed or not if not required, will remove it
     emit NewUpdateAnswer(msg.sender, quesToAnsS[qId].length, qId, ans.ans, ans.upvotes);
   }
-
 
   function upVote(uint doubtIndex, uint ansIndex) public {
     require (questionToAnsToupvoter[doubtIndex][ansIndex][msg.sender] == false, "Cannot upvote the answer twice!");
