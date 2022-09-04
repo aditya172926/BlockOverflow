@@ -1,5 +1,6 @@
-# ETHernals Hackathon project ✌
+# Blockoverflow ✌
 This project is developed in the ETHernals 2022 ETHIndia Hackathon.<br>
+Blockoverflow is among the Top 10 Winners in the ETHernals 2022 and featured by Devfolio and ETHIndia.
 
 ## Project Description
 Users can come on the Super app and can post their doubts which they want to be answered by the community. Anyone can approach the question and post their answers.<br>
